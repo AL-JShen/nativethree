@@ -1,13 +1,31 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import Search from './Search';
+import RenderMedia from './RenderMedia';
 
 export default class App extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      mediaLinks: [],
+    };
+    this.grabMedia = this.grabMedia.bind(this);
+  }
+  
+  grabMedia(data) {
+    this.setState({
+      mediaLinks: data,
+    });
+  }
+  
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <ScrollView>
+          <RenderMedia style={styles.render} urlList={this.state.mediaLinks} />
+        </ScrollView>
+        <Search style={styles.search} grabMedia={this.grabMedia}/>
       </View>
     );
   }
@@ -16,8 +34,15 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    flexDirection: 'column',
+    backgroundColor: 'whitesmoke',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
+  render: {
+    flex: 9,
+  },
+  search: {
+    flex: 1,
+  }
 });
